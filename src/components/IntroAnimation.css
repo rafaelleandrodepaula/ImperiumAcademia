@@ -4,35 +4,64 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  height: 100dvh; /* Corrige barra de endereço do iOS Safari */
+  height: 100dvh;
   pointer-events: none;
   z-index: 9999;
   display: flex;
   align-items: center;
   justify-content: center;
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
+  background-color: #111;
+  /* Transição de opacidade controlada pelo React state */
+  opacity: 0;
+  -webkit-transition: opacity 0.7s ease;
+  transition: opacity 0.7s ease;
+}
+
+/* Fase visible: aparece */
+.intro-overlay--visible {
+  opacity: 1;
+}
+
+/* Fase exiting: some */
+.intro-overlay--exiting {
+  opacity: 0;
+}
+
+/* Fase entering: ainda invisível */
+.intro-overlay--entering {
+  opacity: 0;
 }
 
 .intro-content {
   display: flex;
   flex-direction: column;
   align-items: center;
-  animation: introEntrance 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards,
-             introExit 0.8s ease 2.7s forwards;
   text-align: center;
-  will-change: opacity, transform;
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
+  /* Entrada suave via transform + opacity — funciona em todos os navegadores */
+  -webkit-transform: translateY(20px);
+  transform: translateY(20px);
+  opacity: 0;
+  -webkit-transition: opacity 0.7s ease, -webkit-transform 0.7s ease;
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.intro-overlay--visible .intro-content {
+  opacity: 1;
+  -webkit-transform: translateY(0);
+  transform: translateY(0);
+}
+
+.intro-overlay--exiting .intro-content {
+  opacity: 0;
+  -webkit-transform: translateY(-20px);
+  transform: translateY(-20px);
 }
 
 .intro-icon-wrapper {
   margin-bottom: 1.5rem;
-  animation: pulseGlow 2s infinite ease-in-out;
   display: flex;
   justify-content: center;
   align-items: center;
-  will-change: transform;
 }
 
 .intro-gen-img {
@@ -40,7 +69,6 @@
   height: 150px;
   object-fit: contain;
   border-radius: 20px;
-  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.8));
 }
 
 .intro-phrase {
@@ -52,35 +80,6 @@
   margin: 0;
   text-transform: uppercase;
   text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
-}
-
-/* Sem filter:blur() nos keyframes — causa travamento no Safari iOS */
-@keyframes introEntrance {
-  0% {
-    opacity: 0;
-    transform: scale(0.8) translateY(30px);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-  }
-}
-
-@keyframes introExit {
-  0% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  100% {
-    opacity: 0;
-    transform: scale(1.1) translateY(-20px);
-  }
-}
-
-@keyframes pulseGlow {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.1); }
-  100% { transform: scale(1); }
 }
 
 @media (max-width: 768px) {

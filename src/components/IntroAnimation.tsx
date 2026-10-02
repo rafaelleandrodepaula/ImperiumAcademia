@@ -4,27 +4,36 @@ import './IntroAnimation.css';
 
 const IntroAnimation = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const [phase, setPhase] = useState<'entering' | 'visible' | 'exiting'>('entering');
 
   useEffect(() => {
-    // Only show once per session
     const hasSeenIntro = sessionStorage.getItem('hasSeenIntro2');
-    
+
     if (!hasSeenIntro) {
-      setIsVisible(true);
       sessionStorage.setItem('hasSeenIntro2', 'true');
-      
-      const timer = setTimeout(() => {
-        setIsVisible(false);
-      }, 3500);
-      
-      return () => clearTimeout(timer);
+      setIsVisible(true);
+
+      // Fase 1: entrada (pequeno delay para o CSS pegar a transição)
+      const enterTimer = setTimeout(() => setPhase('visible'), 50);
+
+      // Fase 2: início da saída
+      const exitTimer = setTimeout(() => setPhase('exiting'), 2500);
+
+      // Fase 3: remove do DOM
+      const removeTimer = setTimeout(() => setIsVisible(false), 3300);
+
+      return () => {
+        clearTimeout(enterTimer);
+        clearTimeout(exitTimer);
+        clearTimeout(removeTimer);
+      };
     }
   }, []);
 
   if (!isVisible) return null;
 
   return (
-    <div className="intro-overlay">
+    <div className={`intro-overlay intro-overlay--${phase}`}>
       <div className="intro-content">
         <div className="intro-icon-wrapper">
           <img src={introImg} alt="Imperium Logo" className="intro-gen-img" />
