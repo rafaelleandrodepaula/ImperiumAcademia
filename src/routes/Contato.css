@@ -1,0 +1,296 @@
+/* ============================
+   CONTATO PAGE - Prefixo "ct-"
+   para evitar vazamento de CSS
+   ============================ */
+
+/* Base */
+.ct-page {
+  background-color: var(--accent-dark);
+  color: #fff;
+  overflow: hidden;
+}
+
+/* ---- Hero ---- */
+.ct-hero {
+  position: relative;
+  min-height: 55vh;
+  display: flex;
+  align-items: center;
+  background-image: url('https://images.unsplash.com/photo-1579758629938-03607ccdbaba?q=80&w=2070&auto=format&fit=crop');
+  background-size: cover;
+  background-position: center;
+  padding: 6rem 0 4rem;
+}
+
+.ct-hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, rgba(10, 10, 10, 0.80) 0%, rgba(15, 15, 15, 0.75) 60%, #080808 100%);
+  z-index: 1;
+}
+
+.ct-hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 700px;
+}
+
+.ct-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+  backdrop-filter: blur(10px);
+  color: #fff;
+}
+
+.ct-pulse-dot {
+  width: 8px;
+  height: 8px;
+  background-color: var(--accent-red);
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--accent-red);
+  animation: ct-pulse 2s infinite;
+}
+
+@keyframes ct-pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.7); }
+  70%  { box-shadow: 0 0 0 10px rgba(255, 215, 0, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0); }
+}
+
+.ct-hero-title {
+  font-size: clamp(1.5rem, 3vw, 2.8rem);
+  line-height: 1.1;
+  font-weight: 800;
+  margin-bottom: 1.2rem;
+  letter-spacing: -1px;
+  color: #fff;
+}
+
+.ct-text-gradient {
+  background: linear-gradient(to right, #ef4444, #dc2626);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+}
+
+.ct-hero-subtitle {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #a0a0a0;
+  font-weight: 300;
+  max-width: 500px;
+}
+
+/* ---- Cards Section ---- */
+.ct-cards-section {
+  padding: 6rem 0 8rem;
+  background-color: #080808;
+  background-image: radial-gradient(circle at 50% 0%, rgba(255, 215, 0, 0.03) 0%, transparent 70%);
+}
+
+.ct-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+@media (min-width: 768px) {
+  .ct-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* ---- Card ---- */
+.ct-card {
+  background: rgba(25, 25, 25, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  padding: 2.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.ct-card::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: radial-gradient(circle at top right, rgba(255, 215, 0, 0.05), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.ct-card:hover {
+  transform: translateY(-10px);
+  border-color: rgba(255, 215, 0, 0.3);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.ct-card:hover::after {
+  opacity: 1;
+}
+
+/* ---- Icon ---- */
+.ct-step-icon-wrapper {
+  position: relative;
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 1.5rem auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+  border: 1px solid rgba(255, 215, 0, 0.2);
+  z-index: 2;
+  flex-shrink: 0;
+}
+
+.ct-step-icon {
+  color: var(--accent-red);
+  z-index: 2;
+}
+
+.ct-step-glow {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%; height: 100%;
+  background: var(--accent-red);
+  border-radius: 50%;
+  filter: blur(20px);
+  opacity: 0.15;
+  transition: opacity 0.3s ease;
+  z-index: 1;
+}
+
+.ct-card:hover .ct-step-glow {
+  opacity: 0.3;
+}
+
+/* ---- Card Text ---- */
+.ct-card-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 1.5rem;
+  position: relative;
+  z-index: 2;
+}
+
+.ct-card-desc {
+  color: #999;
+  font-size: 0.9rem;
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+  position: relative;
+  z-index: 2;
+}
+
+.ct-hint {
+  color: #666;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  margin-top: auto;
+  position: relative;
+  z-index: 2;
+}
+
+/* ---- Horários List ---- */
+.ct-horarios-list {
+  list-style: none;
+  width: 100%;
+  position: relative;
+  z-index: 2;
+}
+
+.ct-horarios-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.ct-horarios-list li:last-child {
+  border-bottom: none;
+}
+
+.ct-dia {
+  color: #888;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.ct-hora {
+  color: var(--accent-red);
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+/* ---- Buttons ---- */
+.ct-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  width: 100%;
+  position: relative;
+  z-index: 2;
+}
+
+.ct-btn-wpp,
+.ct-btn-ig {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+.ct-btn-wpp {
+  background-color: #25D366;
+  color: #fff;
+}
+
+.ct-btn-wpp:hover {
+  background-color: #128C7E;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(37, 211, 102, 0.3);
+}
+
+.ct-btn-ig {
+  background: transparent;
+  color: #E1306C;
+  border: 1px solid rgba(225, 48, 108, 0.4);
+}
+
+.ct-btn-ig:hover {
+  background-color: #E1306C;
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(225, 48, 108, 0.3);
+}
