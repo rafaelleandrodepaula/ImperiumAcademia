@@ -4,11 +4,14 @@
   left: 0;
   width: 100vw;
   height: 100vh;
+  height: 100dvh; /* Corrige barra de endereço do iOS Safari */
   pointer-events: none;
   z-index: 9999;
   display: flex;
   align-items: center;
   justify-content: center;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 
 .intro-content {
@@ -18,6 +21,9 @@
   animation: introEntrance 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards,
              introExit 0.8s ease 2.7s forwards;
   text-align: center;
+  will-change: opacity, transform;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 
 .intro-icon-wrapper {
@@ -26,6 +32,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  will-change: transform;
 }
 
 .intro-gen-img {
@@ -33,7 +40,7 @@
   height: 150px;
   object-fit: contain;
   border-radius: 20px;
-  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.8)) drop-shadow(0 0 30px rgba(255, 215, 0, 0.4));
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.8));
 }
 
 .intro-phrase {
@@ -44,19 +51,18 @@
   letter-spacing: 2px;
   margin: 0;
   text-transform: uppercase;
-  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8), 0 0 15px rgba(255, 215, 0, 0.3);
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
 }
 
+/* Sem filter:blur() nos keyframes — causa travamento no Safari iOS */
 @keyframes introEntrance {
   0% {
     opacity: 0;
     transform: scale(0.8) translateY(30px);
-    filter: blur(10px);
   }
   100% {
     opacity: 1;
     transform: scale(1) translateY(0);
-    filter: blur(0);
   }
 }
 
@@ -64,18 +70,16 @@
   0% {
     opacity: 1;
     transform: scale(1);
-    filter: blur(0);
   }
   100% {
     opacity: 0;
     transform: scale(1.1) translateY(-20px);
-    filter: blur(10px);
   }
 }
 
 @keyframes pulseGlow {
   0% { transform: scale(1); }
-  50% { transform: scale(1.1); filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.9)); }
+  50% { transform: scale(1.1); }
   100% { transform: scale(1); }
 }
 
