@@ -540,6 +540,13 @@
   background-attachment: fixed;
 }
 
+/* iPhone/iPad: o fundo "fixed" fica ampliado e travado, então ali o fundo rola normal */
+@supports (-webkit-touch-callout: none) {
+  .hm-cta-section {
+    background-attachment: scroll;
+  }
+}
+
 .hm-cta-overlay {
   position: absolute;
   inset: 0;
