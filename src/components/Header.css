@@ -89,6 +89,7 @@
   font-size: 0.9rem;
   transition: color 0.2s ease;
   position: relative;
+  white-space: nowrap; /* não quebra "Aula Experimental" em duas linhas */
 }
 
 .nav-link:hover,
@@ -139,7 +140,7 @@
 }
 
 .mobile-nav.open {
-  max-height: 400px;
+  max-height: 500px; /* cabe os 7 itens do menu */
   border-bottom: 1px solid rgba(255, 215, 0, 0.15);
 }
 
@@ -168,7 +169,8 @@
 }
 
 /* ========== RESPONSIVE ========== */
-@media (min-width: 768px) {
+/* Menu completo só a partir de 1150px (com 7 itens ele não cabe ao lado do logo em telas menores) */
+@media (min-width: 1150px) {
   .mobile-toggle {
     display: none;
   }

@@ -8,6 +8,7 @@ import SejaAluno from './routes/SejaAluno';
 import AulaExperimental from './routes/AulaExperimental';
 import Sobre from './routes/Sobre';
 import Contato from './routes/Contato';
+import Loja from './routes/Loja';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/aula-experimental" element={<AulaExperimental />} />
           <Route path="/sobre" element={<Sobre />} />
           <Route path="/contato" element={<Contato />} />
+          <Route path="/loja" element={<Loja />} />
         </Routes>
       </main>
       <Footer />

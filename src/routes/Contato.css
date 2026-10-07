@@ -18,7 +18,7 @@
   align-items: center;
   background-image: url('https://images.unsplash.com/photo-1579758629938-03607ccdbaba?q=80&w=2070&auto=format&fit=crop');
   background-size: cover;
-  background-position: center;
+  background-position: center 25%;
   padding: 6rem 0 4rem;
 }
 

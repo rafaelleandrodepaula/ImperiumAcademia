@@ -35,10 +35,14 @@ const Header = () => {
     { path: '/seja-aluno', label: 'Seja Aluno' },
     { path: '/sobre', label: 'Sobre' },
     { path: '/contato', label: 'Contato' },
+    { path: '/loja', label: 'Loja Imperium' },
   ];
 
+  // A loja tem fundo claro: o header fica sempre escuro lá, senão o menu branco some
+  const headerEscuro = scrolled || location.pathname === '/loja';
+
   return (
-    <header className={`header ${scrolled ? 'header--scrolled' : 'header--top'}`}>
+    <header className={`header ${headerEscuro ? 'header--scrolled' : 'header--top'}`}>
       <div className="container header-container">
         <Link to="/" className="logo" onClick={closeMenu}>
           <img src={novaLogo} alt="Imperium Academia" className="logo-img" />

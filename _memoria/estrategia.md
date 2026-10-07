@@ -25,6 +25,7 @@ Ajustar o site a cada pedido do cliente. Candidata a virar skill via `/mapear-ro
 ## O que pode esperar
 
 - Aba de vendas da loja Imperium Suplementos
+- Loja (`src/routes/Loja.tsx`): quando os produtos entrarem (Supabase), guardar o carrinho no navegador (localStorage) pra ele não esvaziar ao recarregar a página
 - Painel administrativo com Supabase
 - Migração para o GitHub e a Vercel definitivos
 - Trocar o WhatsApp do site (hoje é o número do Rafael) pelo número da Imperium

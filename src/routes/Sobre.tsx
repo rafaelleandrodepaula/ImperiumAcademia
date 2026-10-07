@@ -1,7 +1,77 @@
-import { Wind, Calendar, Clock, MapPin, Users, Dumbbell, Star } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { MapPin, Check, Snowflake, Dumbbell, Camera, Armchair } from 'lucide-react';
+import fotoFeminino from '../assets/sobre/feminino.jpg';
+import fotoMassagem from '../assets/sobre/massagem.jpg';
 import './Sobre.css';
 
+const TOTAL_DE_MAQUINAS = 40;
+const TOTAL_DE_METROS = 400;
+
+// Faz um número subir de 0 até o total em mais ou menos 1,5 segundo.
+// Devolve o intervalo, pra poder parar a contagem se a página fechar.
+const contarAte = (total: number, setNumero: (numero: number) => void) => {
+  const quantidadeDePassos = 40;
+  const duracaoEmMs = 1500;
+  let passoAtual = 0;
+
+  const intervalo = setInterval(() => {
+    passoAtual = passoAtual + 1;
+    setNumero(Math.round((total * passoAtual) / quantidadeDePassos));
+    if (passoAtual >= quantidadeDePassos) {
+      clearInterval(intervalo);
+    }
+  }, duracaoEmMs / quantidadeDePassos);
+
+  return intervalo;
+};
+
 const Sobre = () => {
+  // Lista com o nome dos cards que já apareceram na tela (ex: ['maquinas', 'personal'])
+  const [cardsVisiveis, setCardsVisiveis] = useState<string[]>([]);
+  const [numeroMaquinas, setNumeroMaquinas] = useState(0);
+  const [numeroMetros, setNumeroMetros] = useState(0);
+
+  // Quando um card aparece na tela, coloca o nome dele na lista (o CSS faz a animação de entrada)
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const nomeDoCard = (entry.target as HTMLElement).dataset.card;
+            if (nomeDoCard) {
+              setCardsVisiveis((lista) => (lista.includes(nomeDoCard) ? lista : [...lista, nomeDoCard]));
+            }
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+    const cards = document.querySelectorAll('.sobre-info-card');
+    cards.forEach((card) => observer.observe(card));
+    return () => observer.disconnect();
+  }, []);
+
+  const cardEstaVisivel = (nomeDoCard: string) => cardsVisiveis.includes(nomeDoCard);
+  const maquinasVisivel = cardEstaVisivel('maquinas');
+  const climatizacaoVisivel = cardEstaVisivel('climatizacao');
+
+  // Contador das máquinas: 0 até 40
+  useEffect(() => {
+    if (!maquinasVisivel) return;
+    const intervalo = contarAte(TOTAL_DE_MAQUINAS, setNumeroMaquinas);
+    return () => clearInterval(intervalo);
+  }, [maquinasVisivel]);
+
+  // Contador dos metros: 0 até 400
+  useEffect(() => {
+    if (!climatizacaoVisivel) return;
+    const intervalo = contarAte(TOTAL_DE_METROS, setNumeroMetros);
+    return () => clearInterval(intervalo);
+  }, [climatizacaoVisivel]);
+
+  const contagemTerminou = numeroMaquinas === TOTAL_DE_MAQUINAS;
+
   return (
     <div className="page-content sobre-page">
 
@@ -31,62 +101,126 @@ const Sobre = () => {
             <p className="sobre-section-desc">Tudo preparado para a sua melhor experiência.</p>
           </div>
 
-          <div className="sobre-diferenciais-grid">
+          <div className="sobre-info-grid">
+          {/* Card: máquinas (número conta de 0 até 40) */}
+          <div data-card="maquinas" className={`sobre-info-card ${maquinasVisivel ? 'sobre-info-card--visivel' : ''}`}>
+            <span className="sobre-info-kicker">Estrutura</span>
 
-            <div className="sobre-timeline-step">
-              <div className="sobre-step-icon-wrapper">
-                <Wind size={32} className="sobre-step-icon" />
-                <div className="sobre-step-glow"></div>
-              </div>
-              <h3 className="sobre-step-title">Climatização Total</h3>
-              <p className="sobre-step-desc">Treine com conforto em um ambiente 100% climatizado, independente do calor lá fora.</p>
+            <div className="sobre-info-numero">
+              <span className={`sobre-info-mais ${contagemTerminou ? 'sobre-info-mais--visivel' : ''}`}>+</span>
+              {numeroMaquinas}
             </div>
+            <h3 className="sobre-info-titulo">Máquinas</h3>
 
-            <div className="sobre-timeline-step">
-              <div className="sobre-step-icon-wrapper">
-                <Calendar size={32} className="sobre-step-icon" />
-                <div className="sobre-step-glow"></div>
-              </div>
-              <h3 className="sobre-step-title">Todos os Dias</h3>
-              <p className="sobre-step-desc">Aberta de domingo a domingo. Seu treino não para, e nós também não.</p>
+            <div className="sobre-info-linha"></div>
+
+            <p className="sobre-info-texto">
+              Máquinas para diversos grupamentos musculares. Equipamento que realmente ajuda a desenvolver sua musculatura.
+            </p>
+
+            <p className="sobre-info-nota">* Estrutura completa na inauguração</p>
+          </div>
+
+          {/* Card: personal de fora (itens aparecem um por um) */}
+          <div data-card="personal" className={`sobre-info-card ${cardEstaVisivel('personal') ? 'sobre-info-card--visivel' : ''}`}>
+            <span className="sobre-info-kicker">Personal de fora</span>
+
+            <div className="sobre-info-numero">R$ 0</div>
+            <h3 className="sobre-info-titulo">Pro seu personal</h3>
+
+            <div className="sobre-info-linha"></div>
+
+            <ul className="sobre-info-itens">
+              <li><Check size={16} /> Sem diária</li>
+              <li><Check size={16} /> Sem mensalidade</li>
+              <li><Check size={16} /> Sem taxa</li>
+            </ul>
+
+            <p className="sobre-info-texto">
+              Tem personal de outra academia? Ele pode treinar você aqui. Valorizamos de verdade o profissional de educação física.
+            </p>
+          </div>
+
+          {/* Card: climatização (número conta de 0 até 400) */}
+          <div data-card="climatizacao" className={`sobre-info-card ${climatizacaoVisivel ? 'sobre-info-card--visivel' : ''}`}>
+            <span className="sobre-info-kicker">Conforto</span>
+
+            <div className="sobre-info-numero">
+              <span className={`sobre-info-mais ${numeroMetros === TOTAL_DE_METROS ? 'sobre-info-mais--visivel' : ''}`}>+</span>
+              {numeroMetros}<span className="sobre-info-unidade">m²</span>
             </div>
+            <h3 className="sobre-info-titulo">De musculação</h3>
 
-            <div className="sobre-timeline-step">
-              <div className="sobre-step-icon-wrapper">
-                <Clock size={32} className="sobre-step-icon" />
-                <div className="sobre-step-glow"></div>
-              </div>
-              <h3 className="sobre-step-title">Horário Estendido</h3>
-              <p className="sobre-step-desc">Treine até as 22h, adaptando-se perfeitamente à sua rotina e ao seu ritmo de vida.</p>
-            </div>
+            <div className="sobre-info-linha"></div>
 
-            <div className="sobre-timeline-step">
-              <div className="sobre-step-icon-wrapper">
-                <Users size={32} className="sobre-step-icon" />
-                <div className="sobre-step-glow"></div>
-              </div>
-              <h3 className="sobre-step-title">Equipe Especializada</h3>
-              <p className="sobre-step-desc">Professores qualificados prontos para montar o treino ideal para seus objetivos.</p>
-            </div>
+            <ul className="sobre-info-itens">
+              <li><Snowflake size={16} /> 100% climatizado</li>
+            </ul>
 
-            <div className="sobre-timeline-step">
-              <div className="sobre-step-icon-wrapper">
-                <Dumbbell size={32} className="sobre-step-icon" />
-                <div className="sobre-step-glow"></div>
-              </div>
-              <h3 className="sobre-step-title">Equipamentos de Ponta</h3>
-              <p className="sobre-step-desc">Aparelhos modernos e completos para musculação, cardio e muito mais.</p>
-            </div>
+            <p className="sobre-info-texto">
+              Espaço amplo pra treinar com conforto, independente do calor lá fora.
+            </p>
 
-            <div className="sobre-timeline-step">
-              <div className="sobre-step-icon-wrapper">
-                <Star size={32} className="sobre-step-icon" />
-                <div className="sobre-step-glow"></div>
-              </div>
-              <h3 className="sobre-step-title">Ambiente Motivador</h3>
-              <p className="sobre-step-desc">Uma comunidade unida que te empurra a ser melhor a cada treino, todos os dias.</p>
-            </div>
+            <p className="sobre-info-nota">* Estrutura completa na inauguração</p>
+          </div>
 
+          {/* Card: equipamentos (ícone aparece crescendo + itens um por um) */}
+          <div data-card="equipamentos" className={`sobre-info-card ${cardEstaVisivel('equipamentos') ? 'sobre-info-card--visivel' : ''}`}>
+            <span className="sobre-info-kicker">Equipamentos</span>
+
+            <div className="sobre-info-icone"><Dumbbell size={34} /></div>
+            <h3 className="sobre-info-titulo">Alta performance</h3>
+
+            <div className="sobre-info-linha"></div>
+
+            <ul className="sobre-info-itens sobre-info-itens--lista">
+              <li><Check size={16} /> Os melhores maquinários do mercado</li>
+              <li><Check size={16} /> Profissionais qualificados pra te ajudar</li>
+            </ul>
+          </div>
+
+          {/* Card: sala de poses (ícone aparece crescendo) */}
+          <div data-card="poses" className={`sobre-info-card ${cardEstaVisivel('poses') ? 'sobre-info-card--visivel' : ''}`}>
+            <span className="sobre-info-kicker">Para atletas</span>
+
+            <div className="sobre-info-icone"><Camera size={34} /></div>
+            <h3 className="sobre-info-titulo">Sala de poses e fotos</h3>
+
+            <div className="sobre-info-linha"></div>
+
+            <p className="sobre-info-texto">
+              Espaço próprio pra você treinar suas poses e registrar a sua evolução.
+            </p>
+          </div>
+
+          {/* Card: público feminino (com foto de fundo — teste) */}
+          <div data-card="feminino" className={`sobre-info-card sobre-info-card--foto ${cardEstaVisivel('feminino') ? 'sobre-info-card--visivel' : ''}`}>
+            <div className="sobre-info-foto" style={{ backgroundImage: `url(${fotoFeminino})` }}></div>
+            <span className="sobre-info-kicker">Para elas</span>
+
+            <h3 className="sobre-info-titulo">Máquinas pro público feminino</h3>
+
+            <div className="sobre-info-linha"></div>
+
+            <p className="sobre-info-texto">
+              Equipamentos específicos pensados pro treino feminino.
+            </p>
+          </div>
+
+          {/* Card: cadeira de massagem (com foto de fundo) */}
+          <div data-card="massagem" className={`sobre-info-card sobre-info-card--foto ${cardEstaVisivel('massagem') ? 'sobre-info-card--visivel' : ''}`}>
+            <div className="sobre-info-foto sobre-info-foto--massagem" style={{ backgroundImage: `url(${fotoMassagem})` }}></div>
+            <span className="sobre-info-kicker">Malhar e relaxar</span>
+
+            <div className="sobre-info-icone"><Armchair size={34} /></div>
+            <h3 className="sobre-info-titulo">Cadeira de massagem</h3>
+
+            <div className="sobre-info-linha"></div>
+
+            <p className="sobre-info-texto">
+              Terminou o treino? Relaxe na nossa cadeira de massagem.
+            </p>
+          </div>
           </div>
         </div>
       </section>

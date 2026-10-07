@@ -77,6 +77,11 @@
   background-position: center;
 }
 
+/* Slide 2 (mulher + homem na flexão): mostra mais a parte de cima da foto para não cortar a cabeça */
+.hm-carousel-slide:nth-child(2) .hm-slide-bg {
+  background-position: center 25%;
+}
+
 .hm-slide-overlay {
   position: absolute;
   inset: 0;

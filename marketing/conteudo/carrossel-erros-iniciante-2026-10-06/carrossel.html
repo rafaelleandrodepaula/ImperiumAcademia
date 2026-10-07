@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Carrossel — 5 erros de quem está começando a treinar</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #222;
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+    padding: 40px 0;
+  }
+
+  /* Cores da Imperium (identidade/design-guide.md) */
+  :root {
+    --preto: #080808;
+    --card: #111111;
+    --vermelho: #ef4444;
+    --vermelho-escuro: #dc2626;
+    --branco: #ffffff;
+    --cinza: #aaaaaa;
+    --claro: #f4f4f2;
+  }
+
+  /* ===== Base de todo slide ===== */
+  .slide {
+    width: 1080px;
+    height: 1350px;
+    position: relative;
+    overflow: hidden;
+    padding: 90px 90px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .escuro   { background: var(--preto); color: var(--branco); }
+  .claro    { background: var(--claro); color: var(--preto); }
+  .vermelho { background: linear-gradient(160deg, var(--vermelho), var(--vermelho-escuro)); color: var(--branco); }
+
+  /* Topo: logo à esquerda, contador à direita */
+  .topo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .marca {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .marca img { width: 64px; height: 64px; object-fit: contain; }
+
+  .marca-nome {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: 26px;
+    line-height: 1;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .marca-nome span {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.32em;
+    color: var(--vermelho);
+    margin-top: 4px;
+  }
+
+  .vermelho .marca-nome span { color: var(--preto); }
+
+  .contador {
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    opacity: 0.55;
+  }
+
+  /* Rodapé com @ */
+  .rodape {
+    padding-top: 28px;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    display: flex;
+    justify-content: space-between;
+    font-size: 17px;
+    font-weight: 600;
+    opacity: 0.7;
+  }
+
+  .claro .rodape { border-top-color: rgba(0, 0, 0, 0.12); }
+
+  /* Textos */
+  .kicker {
+    font-size: 16px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.28em;
+    color: var(--vermelho);
+  }
+
+  .regua {
+    width: 80px;
+    height: 4px;
+    background: var(--vermelho);
+    margin: 32px 0;
+  }
+
+  h1, h2 {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+  }
+
+  h2 { font-size: 84px; line-height: 1.02; }
+
+  p.corpo {
+    font-size: 30px;
+    font-weight: 500;
+    line-height: 1.45;
+    max-width: 820px;
+  }
+
+  .escuro p.corpo { color: #cfcfcf; }
+  .claro p.corpo  { color: #444; }
+
+  .destaque { color: var(--vermelho); }
+
+  /* ===== CAPA ===== */
+  .capa .conteudo {
+    margin-top: auto;
+    margin-bottom: 110px;
+  }
+
+  .capa h1 {
+    font-size: 150px;
+    line-height: 0.95;
+    margin-top: 28px;
+  }
+
+  .capa p.corpo { margin-top: 36px; }
+
+  /* Numeral gigante decorativo no fundo da capa */
+  .capa .numeral-fundo {
+    position: absolute;
+    right: -60px;
+    top: 40px;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: 760px;
+    line-height: 1;
+    color: transparent;
+    -webkit-text-stroke: 3px rgba(239, 68, 68, 0.18);
+  }
+
+  .capa .conteudo, .capa .topo, .capa .rodape { position: relative; z-index: 1; }
+
+  .arraste {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 48px;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+  }
+
+  /* ===== NÚMERO ===== */
+  .numero .conteudo { margin-top: auto; margin-bottom: auto; }
+
+  .numero .numeral {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: 300px;
+    line-height: 0.85;
+    color: var(--vermelho);
+  }
+
+  .numero .kicker { margin-top: 40px; }
+
+  /* ===== CITAÇÃO ===== */
+  .citacao .conteudo { margin-top: auto; margin-bottom: auto; position: relative; }
+
+  .citacao .aspas {
+    position: absolute;
+    top: -230px;
+    left: -20px;
+    font-family: 'Oswald', sans-serif;
+    font-size: 520px;
+    line-height: 1;
+    color: rgba(0, 0, 0, 0.16);
+  }
+
+  .citacao .kicker { color: var(--preto); }
+  .citacao .regua { background: var(--preto); }
+  .citacao h2 { font-size: 92px; position: relative; }
+  .citacao p.corpo { color: rgba(255, 255, 255, 0.92); margin-top: 8px; }
+  .citacao .rodape { border-top-color: rgba(255, 255, 255, 0.3); }
+
+  /* ===== CTA FINAL ===== */
+  .cta { text-align: center; align-items: center; }
+  .cta .topo { width: 100%; }
+  .cta .conteudo { margin-top: auto; margin-bottom: auto; display: flex; flex-direction: column; align-items: center; }
+  .cta .logo-grande { width: 220px; height: 220px; object-fit: contain; margin-bottom: 48px; }
+  .cta h2 { font-size: 104px; }
+  .cta p.corpo { color: rgba(255, 255, 255, 0.95); margin: 32px auto 0; max-width: 800px; }
+
+  .botao {
+    margin-top: 56px;
+    background: var(--preto);
+    color: var(--branco);
+    font-size: 30px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 30px 56px;
+    border-radius: 10px;
+  }
+
+  .cta .rodape { width: 100%; border-top-color: rgba(255, 255, 255, 0.3); justify-content: center; }
+
+  /* Modo render: render.js abre com ?slide=N e só aquele slide aparece */
+  body.render { background: none; padding: 0; gap: 0; display: block; }
+  body.render .slide { display: none; }
+  body.render .slide.mostrar { display: flex; }
+</style>
+</head>
+<body>
+
+<!-- SLIDE 1 — CAPA (escuro) -->
+<div class="slide escuro capa">
+  <div class="numeral-fundo">5</div>
+  <div class="topo">
+    <div class="marca"><img src="logo.png" alt=""><div class="marca-nome">Imperium<span>Academia</span></div></div>
+    <div class="contador">01 / 07</div>
+  </div>
+  <div class="conteudo">
+    <div class="kicker">Pra quem está começando</div>
+    <h1>5 erros de quem está <span class="destaque">começando</span> a treinar</h1>
+    <p class="corpo">Evite esses erros e veja resultado de verdade.</p>
+    <div class="arraste">Arraste pro lado →</div>
+  </div>
+  <div class="rodape"><span>@ct_imperium_academia</span><span>Várzea Alegre</span></div>
+</div>
+
+<!-- SLIDE 2 — ERRO 1 (claro) -->
+<div class="slide claro numero">
+  <div class="topo">
+    <div class="marca"><img src="logo.png" alt=""><div class="marca-nome">Imperium<span>Academia</span></div></div>
+    <div class="contador">02 / 07</div>
+  </div>
+  <div class="conteudo">
+    <div class="numeral">01</div>
+    <div class="kicker">Erro 1</div>
+    <div class="regua"></div>
+    <h2>Querer resultado na primeira semana.</h2>
+    <p class="corpo" style="margin-top: 36px;">Corpo muda com constância, não com pressa. Dê tempo ao treino.</p>
+  </div>
+  <div class="rodape"><span>@ct_imperium_academia</span><span>Arraste →</span></div>
+</div>
+
+<!-- SLIDE 3 — ERRO 2 (escuro) -->
+<div class="slide escuro numero">
+  <div class="topo">
+    <div class="marca"><img src="logo.png" alt=""><div class="marca-nome">Imperium<span>Academia</span></div></div>
+    <div class="contador">03 / 07</div>
+  </div>
+  <div class="conteudo">
+    <div class="numeral">02</div>
+    <div class="kicker">Erro 2</div>
+    <div class="regua"></div>
+    <h2>Copiar o treino do amigo.</h2>
+    <p class="corpo" style="margin-top: 36px;">O que funciona pra ele pode não funcionar pra você. Treino bom é treino feito pro seu objetivo.</p>
+  </div>
+  <div class="rodape"><span>@ct_imperium_academia</span><span>Arraste →</span></div>
+</div>
+
+<!-- SLIDE 4 — ERRO 3 (claro) -->
+<div class="slide claro numero">
+  <div class="topo">
+    <div class="marca"><img src="logo.png" alt=""><div class="marca-nome">Imperium<span>Academia</span></div></div>
+    <div class="contador">04 / 07</div>
+  </div>
+  <div class="conteudo">
+    <div class="numeral">03</div>
+    <div class="kicker">Erro 3</div>
+    <div class="regua"></div>
+    <h2>Pegar peso demais logo no início.</h2>
+    <p class="corpo" style="margin-top: 36px;">Primeiro a técnica, depois a carga. É assim que você evolui sem se machucar.</p>
+  </div>
+  <div class="rodape"><span>@ct_imperium_academia</span><span>Arraste →</span></div>
+</div>
+
+<!-- SLIDE 5 — ERRO 4 (vermelho, citação) -->
+<div class="slide vermelho citacao">
+  <div class="topo">
+    <div class="marca"><img src="logo.png" alt=""><div class="marca-nome">Imperium<span>Academia</span></div></div>
+    <div class="contador">05 / 07</div>
+  </div>
+  <div class="conteudo">
+    <div class="aspas">“</div>
+    <div class="kicker">Erro 4 · Treinar só quando está com vontade</div>
+    <div class="regua"></div>
+    <h2>Quem evolui é quem vai nos dias bons e nos dias difíceis.</h2>
+  </div>
+  <div class="rodape"><span>@ct_imperium_academia</span><span>Arraste →</span></div>
+</div>
+
+<!-- SLIDE 6 — ERRO 5 (escuro) -->
+<div class="slide escuro numero">
+  <div class="topo">
+    <div class="marca"><img src="logo.png" alt=""><div class="marca-nome">Imperium<span>Academia</span></div></div>
+    <div class="contador">06 / 07</div>
+  </div>
+  <div class="conteudo">
+    <div class="numeral">05</div>
+    <div class="kicker">Erro 5</div>
+    <div class="regua"></div>
+    <h2>Ter vergonha de pedir ajuda.</h2>
+    <p class="corpo" style="margin-top: 36px;">Ninguém nasce sabendo. O professor está lá pra isso. <span class="destaque">Pergunte.</span></p>
+  </div>
+  <div class="rodape"><span>@ct_imperium_academia</span><span>Arraste →</span></div>
+</div>
+
+<!-- SLIDE 7 — CTA FINAL (vermelho) -->
+<div class="slide vermelho cta">
+  <div class="topo">
+    <div></div>
+    <div class="contador">07 / 07</div>
+  </div>
+  <div class="conteudo">
+    <img src="logo.png" alt="Imperium Academia" class="logo-grande">
+    <h2>Comece do jeito certo.</h2>
+    <p class="corpo">A Imperium está chegando em Várzea Alegre. Garanta sua primeira aula grátis na inauguração.</p>
+    <div class="botao">Chame no WhatsApp</div>
+  </div>
+  <div class="rodape"><span>@ct_imperium_academia</span></div>
+</div>
+
+<script>
+  // Se abrir com ?slide=N, mostra só esse slide (usado pelo render.js)
+  const numeroDoSlide = new URLSearchParams(window.location.search).get('slide');
+  if (numeroDoSlide) {
+    document.body.classList.add('render');
+    const slides = document.querySelectorAll('.slide');
+    slides[Number(numeroDoSlide) - 1].classList.add('mostrar');
+  }
+</script>
+</body>
+</html>
