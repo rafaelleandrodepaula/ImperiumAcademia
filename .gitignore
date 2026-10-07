@@ -22,3 +22,23 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Chaves de API e senhas (nunca vão pro GitHub)
+.env
+.env.*
+
+# Claude Code (sessões locais, não devem ir pro repo)
+.claude/projects/
+.claude/sessions/
+.claude/shell-snapshots/
+.claude/telemetry/
+.claude/file-history/
+.claude/backups/
+.claude/settings.local.json
+
+# MazyOS: drop zone do usuário (só o README vai versionado)
+dados/*
+!dados/README.md
+
+# Arquivos temporários
+*.tmp
