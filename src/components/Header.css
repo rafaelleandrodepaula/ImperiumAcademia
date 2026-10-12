@@ -47,29 +47,10 @@
 }
 
 .logo-img {
-  height: 44px;
+  height: 50px;
   width: auto;
   display: block;
   object-fit: contain;
-}
-
-.logo-text {
-  font-family: 'Oswald', sans-serif;
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: #ffffff;
-  letter-spacing: 1px;
-  line-height: 1.1;
-  display: flex;
-  flex-direction: column;
-}
-
-.logo-text-sub {
-  font-size: 0.7rem;
-  font-weight: 400;
-  color: var(--accent-red);
-  letter-spacing: 2px;
-  text-transform: uppercase;
 }
 
 /* ========== DESKTOP NAV ========== */
@@ -180,5 +161,13 @@
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
+  }
+}
+
+/* Tela larga de computador: logo um pouco mais perto do menu.
+   Só a partir de 1600px, porque em telas menores ela bateria no "Início". */
+@media (min-width: 1600px) {
+  .logo {
+    margin-left: 3rem;
   }
 }

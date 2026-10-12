@@ -25,55 +25,30 @@
   animation: lojaSobe 0.7s ease both;
 }
 
-/* ---- Topo ---- */
-.loja-hero {
-  padding: 4.5rem 0 3rem;
-  text-align: center;
+/* ---- Topo: banner em imagem, largura total ---- */
+.loja-banner {
   border-bottom: 1px solid var(--loja-borda);
-  background: radial-gradient(circle at 50% 0%, var(--loja-dourado-claro) 0%, transparent 65%);
 }
 
-.loja-hero-conteudo {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.loja-banner-imagem {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
-.loja-kicker {
-  font-size: 0.8rem;
-  font-weight: 800;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  color: var(--loja-dourado);
-}
+/* Computador: o banner não estica de ponta a ponta (ficava com cara de zoom).
+   Fica na mesma largura da seção de produtos, centralizado. O celular não muda. */
+@media (min-width: 1024px) {
+  .loja-banner {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 0;
+    border-bottom: none;
+  }
 
-.loja-titulo {
-  font-size: clamp(2.6rem, 6vw, 4rem);
-  font-weight: 700;
-  text-transform: uppercase;
-  color: var(--loja-texto);
-  margin-top: 0.75rem;
-}
-
-/* Linha dourada embaixo do título: cresce do centro */
-@keyframes lojaLinha {
-  from { opacity: 0; transform: scaleX(0); }
-  to   { opacity: 1; transform: scaleX(1); }
-}
-
-.loja-linha {
-  width: 60px;
-  height: 3px;
-  background: var(--loja-dourado);
-  margin: 1.25rem 0;
-  animation-name: lojaLinha;
-}
-
-.loja-subtitulo {
-  max-width: 520px;
-  color: var(--loja-cinza);
-  font-size: 1.05rem;
-  line-height: 1.6;
+  .loja-banner-imagem {
+    border-radius: 16px;
+  }
 }
 
 /* ---- Produtos ---- */

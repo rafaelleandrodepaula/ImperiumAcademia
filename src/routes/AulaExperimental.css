@@ -5,10 +5,16 @@
   overflow: hidden;
 }
 
+/* A foto do topo sobe até atrás do cabeçalho transparente (igual Modalidades).
+   Usa as duas classes porque o index.css (padding-top: 80px) carrega depois deste arquivo. */
+.page-content.experimental-page {
+  padding-top: 0;
+}
+
 /* Hero Section */
 .experimental-hero {
   position: relative;
-  min-height: calc(100vh - 80px);
+  min-height: 100vh;
   display: flex;
   align-items: center;
   background-image: url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2070&auto=format&fit=crop');

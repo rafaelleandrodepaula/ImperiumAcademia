@@ -1,7 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { useState, useEffect } from 'react';
-import novaLogo from '../assets/nova-logo.png';
+import logoImperium from '../assets/logo-imperium-horizontal.png';
 import './Header.css';
 
 const Header = () => {
@@ -45,10 +45,9 @@ const Header = () => {
     <header className={`header ${headerEscuro ? 'header--scrolled' : 'header--top'}`}>
       <div className="container header-container">
         <Link to="/" className="logo" onClick={closeMenu}>
-          <img src={novaLogo} alt="Imperium Academia" className="logo-img" />
-          <span className="logo-text">
-            Imperium <span className="logo-text-sub">Academia</span>
-          </span>
+          {/* A logo já traz o nome "Imperium Academia" escrito */}
+          <img src={logoImperium} alt="Imperium Academia" className="logo-img" />
+
         </Link>
 
         {/* Desktop Nav */}

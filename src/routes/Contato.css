@@ -10,6 +10,12 @@
   overflow: hidden;
 }
 
+/* A foto do topo sobe até atrás do cabeçalho transparente (igual Modalidades).
+   Usa as duas classes porque o index.css (padding-top: 80px) carrega depois deste arquivo. */
+.page-content.ct-page {
+  padding-top: 0;
+}
+
 /* ---- Hero ---- */
 .ct-hero {
   position: relative;

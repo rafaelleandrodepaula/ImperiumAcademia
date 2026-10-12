@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
-import { MapPin, Clock, Phone, MessageCircle } from 'lucide-react';
-import novaLogo from '../assets/nova-logo.png';
+import { MapPin, Clock, Phone, MessageCircle, ChevronRight } from 'lucide-react';
+import logoImperium from '../assets/logo-imperium-horizontal.png';
 import './Footer.css';
 
 const InstagramIcon = ({ size = 20 }) => (
@@ -32,12 +32,11 @@ const Footer = () => {
           {/* Brand & Social */}
           <div className="footer-section brand-section">
             <Link to="/" className="footer-logo">
-              <img src={novaLogo} alt="Imperium Academia" className="footer-logo-img" />
-              <span className="logo-text-footer">
-                Imperium <span className="logo-text-footer-sub">Academia</span>
-              </span>
+              {/* A logo já traz o nome "Imperium Academia" escrito */}
+              <img src={logoImperium} alt="Imperium Academia" className="footer-logo-img" />
             </Link>
             <p className="footer-slogan">Um dia a mais, um passo a frente.</p>
+            <p className="footer-slogan-sub">Treine com estrutura, disciplina e resultados.</p>
             <div className="social-links">
               <a href="https://www.instagram.com/ct_imperium_academia/" target="_blank" rel="noreferrer" className="social-btn" aria-label="Instagram">
                 <InstagramIcon size={20} />
@@ -54,7 +53,10 @@ const Footer = () => {
             <ul className="footer-links-list">
               {quickLinks.map((link) => (
                 <li key={link.path}>
-                  <Link to={link.path} className="footer-link">{link.label}</Link>
+                  <Link to={link.path} className="footer-link">
+                    {link.label}
+                    <ChevronRight size={16} className="footer-link-seta" />
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -65,11 +67,11 @@ const Footer = () => {
             <h3>Contato</h3>
             <ul className="footer-info-list">
               <li>
-                <MapPin size={18} className="info-icon" />
+                <span className="info-icon-circulo"><MapPin size={18} className="info-icon" /></span>
                 <span>R. Vicente Alves da Costa, Riachinho, Várzea Alegre - CE, 63540-000</span>
               </li>
               <li>
-                <Phone size={18} className="info-icon" />
+                <span className="info-icon-circulo"><Phone size={18} className="info-icon" /></span>
                 <span>(93) 99105-7986</span>
               </li>
             </ul>
@@ -80,15 +82,15 @@ const Footer = () => {
             <h3>Horários</h3>
             <ul className="footer-info-list">
               <li>
-                <Clock size={18} className="info-icon" />
+                <span className="info-icon-circulo"><Clock size={18} className="info-icon" /></span>
                 <span><strong>Seg - Sex:</strong> 05h às 22h</span>
               </li>
               <li>
-                <Clock size={18} className="info-icon" />
+                <span className="info-icon-circulo"><Clock size={18} className="info-icon" /></span>
                 <span><strong>Sábado:</strong> 08h às 14h</span>
               </li>
               <li>
-                <Clock size={18} className="info-icon" />
+                <span className="info-icon-circulo"><Clock size={18} className="info-icon" /></span>
                 <span><strong>Domingo:</strong> 08h às 12h</span>
               </li>
             </ul>

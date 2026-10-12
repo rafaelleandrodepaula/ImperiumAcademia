@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { ShoppingCart, X, Plus, Minus, Trash2, PackageOpen, MessageCircle } from 'lucide-react';
 import './Loja.css';
+import bannerLoja from '../assets/loja/banner-loja.jpg';
 
 // WhatsApp da loja. ATENÇÃO: é o número de teste do Rafael — trocar pelo da Imperium Suplementos antes de lançar.
 const WHATSAPP_LOJA = '5593991057986';
@@ -60,16 +61,15 @@ const Loja = () => {
   return (
     <div className="page-content loja-page">
 
-      {/* Topo da loja (os itens entram em cascata) */}
-      <section className="loja-hero">
-        <div className="container loja-hero-conteudo">
-          <span className="loja-kicker loja-entrada" style={{ animationDelay: '0.1s' }}>Imperium Suplementos</span>
-          <h1 className="loja-titulo loja-entrada" style={{ animationDelay: '0.25s' }}>Loja Imperium</h1>
-          <div className="loja-linha loja-entrada" style={{ animationDelay: '0.4s' }}></div>
-          <p className="loja-subtitulo loja-entrada" style={{ animationDelay: '0.5s' }}>
-            Suplementos pra acompanhar o seu treino. Monte seu pedido e finalize pelo WhatsApp.
-          </p>
-        </div>
+      {/* Topo da loja: banner com o título e o texto já escritos na imagem */}
+      <section className="loja-banner">
+        <img
+          src={bannerLoja}
+          alt="Loja Imperium. Suplementos pra acompanhar o seu treino. Monte seu pedido e finalize pelo WhatsApp."
+          className="loja-banner-imagem"
+          width={2172}
+          height={724}
+        />
       </section>
 
       {/* Produtos */}
