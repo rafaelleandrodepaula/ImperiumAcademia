@@ -1,10 +1,14 @@
+import { useState } from 'react';
 import { CheckCircle, MessageCircle } from 'lucide-react';
+import FormularioPlano from '../components/FormularioPlano';
 import './SejaAluno.css';
 
 const WHATSAPP_NUMBER = '5593991057986';
 
 const SejaAluno = () => {
   const baseWppLink = `https://wa.me/${WHATSAPP_NUMBER}?text=`;
+  // Plano clicado. Enquanto for null, o formulário fica fechado.
+  const [planoEscolhido, setPlanoEscolhido] = useState<string | null>(null);
 
   const planos = [
     {
@@ -12,7 +16,6 @@ const SejaAluno = () => {
       preco: 'R$ 89,90',
       periodo: '/mês',
       beneficios: ['Acesso a todas modalidades', 'Horário livre', 'Sem taxa de adesão'],
-      wpp: 'Olá, quero fazer o Plano Mensal na Imperium!'
     },
     {
       nome: 'Trimestral',
@@ -20,14 +23,12 @@ const SejaAluno = () => {
       periodo: '/mês',
       destaque: true,
       beneficios: ['Acesso a todas modalidades', 'Horário livre', 'Avaliação física inclusa', 'Desconto especial'],
-      wpp: 'Olá, quero fazer o Plano Trimestral na Imperium!'
     },
     {
       nome: 'Anual',
       preco: 'R$ 69,90',
       periodo: '/mês',
       beneficios: ['Acesso a todas modalidades', 'Horário livre', '2 Avaliações físicas', 'Camiseta exclusiva'],
-      wpp: 'Olá, quero fazer o Plano Anual na Imperium!'
     }
   ];
 
@@ -85,15 +86,15 @@ const SejaAluno = () => {
                 </div>
 
                 <div className="sa-plano-footer">
-                  <a
-                    href={`${baseWppLink}${encodeURIComponent(plano.wpp)}`}
-                    target="_blank"
-                    rel="noreferrer"
+                  {/* Abre o formulário; o WhatsApp só abre depois que a pessoa preenche */}
+                  <button
+                    type="button"
+                    onClick={() => setPlanoEscolhido(plano.nome)}
                     className={`sa-btn-plano ${plano.destaque ? 'sa-btn-destaque' : ''}`}
                   >
                     <MessageCircle size={18} />
                     Quero este plano
-                  </a>
+                  </button>
                 </div>
               </div>
             ))}
@@ -112,6 +113,10 @@ const SejaAluno = () => {
           </div>
         </div>
       </section>
+
+      {planoEscolhido && (
+        <FormularioPlano plano={planoEscolhido} aoFechar={() => setPlanoEscolhido(null)} />
+      )}
 
     </div>
   );
