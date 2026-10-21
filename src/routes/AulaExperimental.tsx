@@ -1,11 +1,10 @@
+import { useState } from 'react';
 import { CalendarCheck, Clock, MapPin, CheckCircle, ChevronRight, Activity } from 'lucide-react';
+import FormularioAulaExperimental from '../components/FormularioAulaExperimental';
 import './AulaExperimental.css';
 
-const WHATSAPP_NUMBER = '5593991057986';
-
 const AulaExperimental = () => {
-  const whatsappMessage = 'Olá! Quero transformar meu corpo e agendar minha aula experimental gratuita!';
-  const wppLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappMessage)}`;
+  const [formularioAberto, setFormularioAberto] = useState(false);
 
   return (
     <div className="page-content experimental-page">
@@ -29,10 +28,11 @@ const AulaExperimental = () => {
             </p>
             
             <div className="hero-cta-group">
-              <a href={wppLink} target="_blank" rel="noreferrer" className="btn-glow">
+              {/* Abre o formulário; o WhatsApp só abre depois que a pessoa preenche */}
+              <button type="button" onClick={() => setFormularioAberto(true)} className="btn-glow">
                 <span>AGENDAR AGORA</span>
                 <ChevronRight size={20} className="icon-arrow" />
-              </a>
+              </button>
               <div className="hero-features">
                 <div className="feature-item">
                   <CheckCircle size={16} className="feature-icon" />
@@ -83,7 +83,7 @@ const AulaExperimental = () => {
                 <div className="step-glow"></div>
               </div>
               <h3 className="step-title">Agendamento</h3>
-              <p className="step-desc">Clique no botão e fale com nossa equipe via WhatsApp para escolher o melhor dia e horário.</p>
+              <p className="step-desc">Clique no botão, preencha seus dados e confirme o dia e o horário com nossa equipe pelo WhatsApp.</p>
             </div>
 
             {/* Step 2 */}
@@ -108,6 +108,8 @@ const AulaExperimental = () => {
           </div>
         </div>
       </section>
+
+      {formularioAberto && <FormularioAulaExperimental aoFechar={() => setFormularioAberto(false)} />}
     </div>
   );
 };

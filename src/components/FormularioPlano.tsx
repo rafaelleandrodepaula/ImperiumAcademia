@@ -1,63 +1,19 @@
 import { useEffect, useState, type FormEvent } from 'react';
 import { X, MessageCircle } from 'lucide-react';
+import {
+  WHATSAPP_DONO,
+  dataDeHoje,
+  soNumeros,
+  mascaraData,
+  converterData,
+  mascaraTelefone,
+  mascaraCpf,
+} from '../utils/formulario';
 import './FormularioPlano.css';
-
-// WhatsApp do dono da Imperium: os pedidos de plano chegam aqui.
-// ATENÇÃO: confirmar se o número está certo (celular normalmente tem 9 dígitos depois do DDD).
-const WHATSAPP_MATRICULA = '558874009356';
 
 type Props = {
   plano: string; // nome do plano clicado (ex: "Mensal")
   aoFechar: () => void;
-};
-
-// Data de hoje no formato do campo de data (AAAA-MM-DD), no horário do Brasil (não em UTC)
-const dataDeHoje = () => {
-  const hoje = new Date();
-  const ano = hoje.getFullYear();
-  const mes = String(hoje.getMonth() + 1).padStart(2, '0');
-  const dia = String(hoje.getDate()).padStart(2, '0');
-  return `${ano}-${mes}-${dia}`;
-};
-
-// Enquanto digita: 24112026 vira 24/11/2026
-const mascaraData = (texto: string) => {
-  const n = texto.replace(/\D/g, '').slice(0, 8);
-  if (n.length <= 2) return n;
-  if (n.length <= 4) return `${n.slice(0, 2)}/${n.slice(2)}`;
-  return `${n.slice(0, 2)}/${n.slice(2, 4)}/${n.slice(4)}`;
-};
-
-// "24/11/2026" vira "2026-11-24" (formato pra comparar com a data de hoje).
-// Se a data não existir (ex: 31/02/2026), devolve vazio.
-const converterData = (data: string) => {
-  const [dia, mes, ano] = data.split('/').map(Number);
-  if (!dia || !mes || !ano || String(ano).length !== 4) return '';
-  const teste = new Date(ano, mes - 1, dia);
-  const existe = teste.getFullYear() === ano && teste.getMonth() === mes - 1 && teste.getDate() === dia;
-  if (!existe) return '';
-  return `${ano}-${String(mes).padStart(2, '0')}-${String(dia).padStart(2, '0')}`;
-};
-
-// Deixa só os números
-const soNumeros = (texto: string) => texto.replace(/\D/g, '');
-
-// Enquanto digita: 88974009356 vira (88) 97400-9356
-const mascaraTelefone = (texto: string) => {
-  const n = soNumeros(texto).slice(0, 11);
-  if (n.length <= 2) return n;
-  if (n.length <= 6) return `(${n.slice(0, 2)}) ${n.slice(2)}`;
-  if (n.length <= 10) return `(${n.slice(0, 2)}) ${n.slice(2, 6)}-${n.slice(6)}`;
-  return `(${n.slice(0, 2)}) ${n.slice(2, 7)}-${n.slice(7)}`;
-};
-
-// Enquanto digita: 12345678900 vira 123.456.789-00
-const mascaraCpf = (texto: string) => {
-  const n = soNumeros(texto).slice(0, 11);
-  if (n.length <= 3) return n;
-  if (n.length <= 6) return `${n.slice(0, 3)}.${n.slice(3)}`;
-  if (n.length <= 9) return `${n.slice(0, 3)}.${n.slice(3, 6)}.${n.slice(6)}`;
-  return `${n.slice(0, 3)}.${n.slice(3, 6)}.${n.slice(6, 9)}-${n.slice(9)}`;
 };
 
 const FormularioPlano = ({ plano, aoFechar }: Props) => {
@@ -125,7 +81,7 @@ const FormularioPlano = ({ plano, aoFechar }: Props) => {
     }
     linhas.push(`Quero começar em: ${dataInicio}`);
 
-    const link = `https://wa.me/${WHATSAPP_MATRICULA}?text=${encodeURIComponent(linhas.join('\n'))}`;
+    const link = `https://wa.me/${WHATSAPP_DONO}?text=${encodeURIComponent(linhas.join('\n'))}`;
     window.open(link, '_blank');
     aoFechar();
   };
