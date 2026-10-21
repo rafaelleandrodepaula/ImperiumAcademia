@@ -20,10 +20,23 @@ const dataDeHoje = () => {
   return `${ano}-${mes}-${dia}`;
 };
 
-// "2026-10-25" vira "25/10/2026"
-const formatarData = (data: string) => {
-  const [ano, mes, dia] = data.split('-');
-  return `${dia}/${mes}/${ano}`;
+// Enquanto digita: 24112026 vira 24/11/2026
+const mascaraData = (texto: string) => {
+  const n = texto.replace(/\D/g, '').slice(0, 8);
+  if (n.length <= 2) return n;
+  if (n.length <= 4) return `${n.slice(0, 2)}/${n.slice(2)}`;
+  return `${n.slice(0, 2)}/${n.slice(2, 4)}/${n.slice(4)}`;
+};
+
+// "24/11/2026" vira "2026-11-24" (formato pra comparar com a data de hoje).
+// Se a data não existir (ex: 31/02/2026), devolve vazio.
+const converterData = (data: string) => {
+  const [dia, mes, ano] = data.split('/').map(Number);
+  if (!dia || !mes || !ano || String(ano).length !== 4) return '';
+  const teste = new Date(ano, mes - 1, dia);
+  const existe = teste.getFullYear() === ano && teste.getMonth() === mes - 1 && teste.getDate() === dia;
+  if (!existe) return '';
+  return `${ano}-${String(mes).padStart(2, '0')}-${String(dia).padStart(2, '0')}`;
 };
 
 // Deixa só os números
@@ -88,10 +101,15 @@ const FormularioPlano = ({ plano, aoFechar }: Props) => {
       return;
     }
     if (!dataInicio) {
-      setErro('Escolha a data em que quer começar.');
+      setErro('Digite a data em que quer começar.');
       return;
     }
-    if (dataInicio < dataDeHoje()) {
+    const dataConvertida = converterData(dataInicio);
+    if (!dataConvertida) {
+      setErro('Digite uma data válida, no formato dia/mês/ano (ex: 24/11/2026).');
+      return;
+    }
+    if (dataConvertida < dataDeHoje()) {
       setErro('A data de início não pode ser no passado.');
       return;
     }
@@ -105,7 +123,7 @@ const FormularioPlano = ({ plano, aoFechar }: Props) => {
     if (cpfNumeros.length === 11) {
       linhas.push(`CPF: ${mascaraCpf(cpfNumeros)}`);
     }
-    linhas.push(`Quero começar em: ${formatarData(dataInicio)}`);
+    linhas.push(`Quero começar em: ${dataInicio}`);
 
     const link = `https://wa.me/${WHATSAPP_MATRICULA}?text=${encodeURIComponent(linhas.join('\n'))}`;
     window.open(link, '_blank');
@@ -169,10 +187,12 @@ const FormularioPlano = ({ plano, aoFechar }: Props) => {
           <label className="fp-campo">
             <span>Quero começar em</span>
             <input
-              type="date"
+              type="text"
               value={dataInicio}
-              min={dataDeHoje()}
-              onChange={(e) => { setDataInicio(e.target.value); setErro(''); }}
+              onChange={(e) => { setDataInicio(mascaraData(e.target.value)); setErro(''); }}
+              placeholder="dd/mm/aaaa"
+              inputMode="numeric"
+              maxLength={10}
             />
           </label>
 

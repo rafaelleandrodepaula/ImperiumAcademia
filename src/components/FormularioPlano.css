@@ -96,7 +96,6 @@
   color: #fff;
   font-size: 1rem; /* 16px: evita o iPhone dar zoom ao tocar no campo */
   font-family: inherit;
-  color-scheme: dark; /* calendário escuro no campo de data */
 }
 
 .fp-campo input::placeholder {
